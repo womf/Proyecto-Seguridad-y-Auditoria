@@ -1,55 +1,73 @@
 <!DOCTYPE html>
 <html lang="es">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login de Administrador</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <link rel="stylesheet" href="css/style.css">
 </head>
-<body class="bg-light">
-    <div class="container d-flex justify-content-center align-items-center vh-100">
-        <div class="card p-4 shadow-lg">
-            <h2 class="text-center mb-4">Login de Administrador</h2>
-            <div class="form-group mb-3">
-                <input type="email" id="correo" class="form-control" placeholder="Correo" required>
-            </div>
-            <div class="form-group mb-3">
-                <input type="password" id="contraseña" class="form-control" placeholder="Contraseña" required>
-            </div>
-            <button class="btn btn-primary w-100" onclick="login()">Iniciar Sesión</button>
+  <body>
+    <canvas id="systemsCanvas"></canvas>
+
+    <div class="container">
+      <div class="card">
+        <h2 class="title"><span>Login de Administrador</span></h2>
+        <div class="inputgroup">
+          <label for="correo">Correo Usuario</label>
+          <input
+            type="email"
+            id="correo"
+            class="form-control"
+            placeholder="Correo"
+            required
+          />
         </div>
+        <div class="inputgroup">
+          <label for="">Contrasena Usuario</label>
+          <input
+            type="password"
+            id="contraseña"
+            class="form-control"
+            placeholder="Contraseña"
+            required
+          />
+        </div>
+        <button class="btn" onclick="login()">Iniciar Sesión</button>
+      </div>
     </div>
+    <script src="js/mainindex.js"></script>
 
     <script>
-        async function login() {
-            const correo = document.getElementById('correo').value;
-            const contraseña = document.getElementById('contraseña').value;
+      async function login() {
+        const correo = document.getElementById("correo").value;
+        const contraseña = document.getElementById("contraseña").value;
 
-            try {
-                const response = await fetch('/api/empleados/login', {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({ correo, contraseña })
-                });
+        try {
+          const response = await fetch("/api/empleados/login", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ correo, contraseña }),
+          });
 
-                if (response.ok) {
-                    const data = await response.json();
-                    console.log('Token recibido:', data.token); // Verificar que el token se reciba
+          if (response.ok) {
+            const data = await response.json();
+            console.log("Token recibido:", data.token); // Verificar que el token se reciba
 
-                    // Guardar el token en localStorage
-                    localStorage.setItem('token', data.token);
+            // Guardar el token en localStorage
+            localStorage.setItem("token", data.token);
 
-                    alert('Login exitoso. Redirigiendo...');
-                    window.location.href = 'crear-empleado.html'; // Redirige al dashboard
-                } else {
-                    const error = await response.text();
-                    alert('Error en el login: ' + error);
-                }
-            } catch (error) {
-                console.error('Error en la solicitud:', error);
-                alert('Ocurrió un error al iniciar sesión.');
-            }
+            alert("Login exitoso. Redirigiendo...");
+            window.location.href = "crear-empleado.html"; // Redirige al dashboard
+          } else {
+            const error = await response.text();
+            alert("Error en el login: " + error);
+          }
+        } catch (error) {
+          console.error("Error en la solicitud:", error);
+          alert("Ocurrió un error al iniciar sesión.");
         }
+      }
     </script>
-</body>
+  </body>
 </html>
